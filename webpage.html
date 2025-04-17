@@ -3,121 +3,810 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaptopFinder</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Shop - LaptopFinder</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2962ff;
+            --secondary-color: #0d47a1;
+            --accent-color: #ff6d00;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --medium-gray: #757575;
+            --text-color: #212121;
+            --white: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-gray);
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .logo img {
+            height: 100%;
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-icons a {
+            margin-left: 20px;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/400') no-repeat center center/cover;
+            padding: 100px 0 50px;
+            text-align: center;
+            color: var(--white);
+            margin-top: 70px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .page-header p {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Shop Layout */
+        .shop-layout {
+            display: flex;
+            margin: 40px 0;
+            gap: 30px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+        }
+        
+        .filter-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .filter-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .filter-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .price-input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .apply-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        
+        .apply-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Products Grid */
+        .products-container {
+            flex: 1;
+        }
+        
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .products-count {
+            font-weight: 500;
+        }
+        
+        .sort-select {
+            padding: 8px 30px 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8.825l-4.9-4.9 1.414-1.414L6 6l3.486-3.489L10.9 3.925l-4.9 4.9z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .product-info p {
+            color: var(--medium-gray);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-link i {
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .product-link:hover i {
+            transform: translateX(5px);
+        }
+        
+        .cart-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .cart-btn:hover {
+            background: #e65100;
+            transform: scale(1.1);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--text-color);
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .pagination a:hover, .pagination a.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 60px 0 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdbdbd;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            height: 40px;
+            width: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdbdbd;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media screen and (max-width: 992px) {
+            .shop-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 40px 20px;
+                transition: left 0.3s;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .products-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .sort-select {
+                width: 100%;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="menu-btn">
-        <i class="fas fa-bars fa-2x"></i>
-      </div>
+    <!-- Header and Navigation -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="aijar (1).png" alt="LaptopFinder Logo">
+                    </a>
+                </div>
+                
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Deals</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="registor.html">Register</a></li>
+                </ul>
+                
+                <div class="nav-icons">
+                    <a href="#" id="search-icon"><i class="fas fa-search"></i></a>
+                    <a href="#" id="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+                    <a href="#"><i class="fas fa-user"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
     
-      <div class="container">
-        <nav class="main-nav">
-          <img src="aijar (1).png" alt="Microsoft" class="logo">
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Browse Our Laptops</h1>
+            <p>Find the perfect laptop that matches your needs and budget</p>
+        </div>
+    </section>
     
-          <ul class="main-menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#">Admin</a></li>
-            <li><a href="#">Courier</a></li>
-            <li><a href="#">Buyer</a></li>
-            <li><a href="#">Support</a></li>
-          </ul>
+    <!-- Main Shop Content -->
+    <div class="container">
+        <div class="shop-layout">
+            <!-- Sidebar with Filters -->
+            <div class="sidebar">
+                <div class="filter-card">
+                    <h3>Price Range</h3>
+                    <div class="price-range">
+                        <input type="number" class="price-input" placeholder="Min" min="0">
+                        <span>to</span>
+                        <input type="number" class="price-input" placeholder="Max" min="0">
+                    </div>
+                    <button class="apply-btn">Apply Filter</button>
+                </div>
+                
+                <div class="filter-card">
+                    <h3>Brand</h3>
+                    <div class="filter-group">
+                        <label><input type="checkbox"> Lenovo</label>
+                        <label><input type="checkbox"> HP</label>
+                        <label><input type="checkbox"> Dell</label>
+                        <label><input type="checkbox"> Apple</label>
+                        <label><input type="checkbox"> Asus</label>
+                        <label><input type="checkbox"> Acer</label>
+                    </div>
+                </div>
+                
+                <div class="filter-card">
+                    <h3>Processor</h3>
+                    <div class="filter-group">
+                        <label><input type="checkbox"> Intel Core i3</label>
+                        <label><input type="checkbox"> Intel Core i5</label>
+                        <label><input type="checkbox"> Intel Core i7</label>
+                        <label><input type="checkbox"> Intel Core i9</label>
+                        <label><input type="checkbox"> AMD Ryzen 5</label>
+                        <label><input type="checkbox"> AMD Ryzen 7</label>
+                    </div>
+                </div>
+                
+                <div class="filter-card">
+                    <h3>Usage Type</h3>
+                    <div class="filter-group">
+                        <label><input type="checkbox"> Gaming</label>
+                        <label><input type="checkbox"> Business</label>
+                        <label><input type="checkbox"> Student</label>
+                        <label><input type="checkbox"> Creative Work</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Grid Section -->
+            <div class="products-container">
+                <div class="products-header">
+                    <div class="products-count">Showing 12 of 48 products</div>
+                    <select class="sort-select">
+                        <option value="default">Sort by: Default</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name">Name: A to Z</option>
+                    </select>
+                </div>
+                
+                <div class="products-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="lenovo.jpg" alt="Lenovo ThinkPad X1">
+                        </div>
+                        <div class="product-info">
+                            <h3>Lenovo ThinkPad X1</h3>
+                            <p>Ultra-thin business laptop with 11th Gen Intel Core i7</p>
+                            <div class="product-price">R15,999</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="hp.jpg" alt="HP Spectre x360">
+                        </div>
+                        <div class="product-info">
+                            <h3>HP Spectre x360</h3>
+                            <p>Convertible 2-in-1 laptop with OLED display</p>
+                            <div class="product-price">R18,499</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="dell.jpg" alt="Dell XPS 13">
+                        </div>
+                        <div class="product-info">
+                            <h3>Dell XPS 13</h3>
+                            <p>Premium ultrabook with InfinityEdge display</p>
+                            <div class="product-price">R17,299</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="lenovo.jpg" alt="Lenovo Legion 5">
+                        </div>
+                        <div class="product-info">
+                            <h3>Lenovo Legion 5</h3>
+                            <p>Gaming laptop with RTX graphics and high refresh rate</p>
+                            <div class="product-price">R16,499</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 5 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="hp.jpg" alt="HP Pavilion 15">
+                        </div>
+                        <div class="product-info">
+                            <h3>HP Pavilion 15</h3>
+                            <p>All-purpose laptop for everyday use</p>
+                            <div class="product-price">R8,999</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 6 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="dell.jpg" alt="Dell Inspiron 15">
+                        </div>
+                        <div class="product-info">
+                            <h3>Dell Inspiron 15</h3>
+                            <p>Value laptop with strong performance</p>
+                            <div class="product-price">R9,299</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 7 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="lenovo.jpg" alt="Lenovo IdeaPad 3">
+                        </div>
+                        <div class="product-info">
+                            <h3>Lenovo IdeaPad 3</h3>
+                            <p>Budget friendly laptop for students</p>
+                            <div class="product-price">R6,499</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 8 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="hp.jpg" alt="HP Envy 13">
+                        </div>
+                        <div class="product-info">
+                            <h3>HP Envy 13</h3>
+                            <p>Sleek design with premium features</p>
+                            <div class="product-price">R13,999</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 9 -->
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="dell.jpg" alt="Dell G15">
+                        </div>
+                        <div class="product-info">
+                            <h3>Dell G15</h3>
+                            <p>Affordable gaming laptop with solid performance</p>
+                            <div class="product-price">R12,499</div>
+                            <div class="product-action">
+                                <a href="#" class="product-link">Details <i class="fas fa-chevron-right"></i></a>
+                                <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
     
-          <ul class="right-menu">
-            <li>
-              <a href="#"  onclick="searchFunction()">
-                <i class="fas fa-search"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" onclick="shoppingCartFunction()">
-                <i class="fas fa-shopping-cart"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div class="header">
-        <h1>Welcome to Our Computer Store</h1>
-      </div>
-        <section class="home-cards">
-          <div>
-            <img src="ales-nesetril-Im7lZjxeLhg-unsplash.jpg" alt="">
-            <h3>New Lenovo i7</h3>
-            <p>
-              See how Katie Sowers, Asst. Coach for the 49ers, uses Surface Pro 7
-                            to put her plans into play.
-            </p>
-            <a href="#">Learn More <i class="fas fa-chevron-right"></i></a>
-          </div>
-          <div>
-            <img src="windows-C6T6vr1sQI0-unsplash.jpg" alt="" >
-            <h3>New HP Laptop </h3>
-            <p>
-              Express yourself powerfully with a thin, light, and elegant design,
-              faster performance, and up to 11.5 hours battery life.
-            </p>
-            <a href="#">Learn More <i class="fas fa-chevron-right"></i></a>
-          </div>
-          <div>
-            <img src="unsplash-NuFUbftUu_s-unsplash.jpg" alt="" />
-            <h3>Save R150 + free mouse + system unit</h3>
-            <p>
-              Buy an I5 One X console and double your fun with a free select
-              extra controller. Starting at R70349.
-            </p>
-            <a href="#">Learn More <i class="fas fa-chevron-right"></i></a>
-          </div>
-          <div>
-            <img src="laptop-on-marble-table-picjumbo-com.jpg" alt="" />
-            <h3>The new Dell laptop</h3>
-            <p>
-              Expect more. World class performance, with more privacy, more
-              productivity, and more value.
-            </p>
-            <a href="#">Learn More <i class="fas fa-chevron-right"></i></a>
-          </div>
-        </section>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1 -->
+                <div class="footer-column">
+                    <h4>LaptopFinder</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">All Laptops</a></li>
+                        <li><a href="#">Gaming Laptops</a></li>
+                        <li><a href="#">Business Laptops</a></li>
+                        <li><a href="#">Student Deals</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div class="footer-column">
+                    <h4>Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Warranty Information</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 LaptopFinder. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
     
-     
-        <section class="xbox">
-          <div class="content">
-            <h2>Xbox Game Pass Ultimate</h2>
-            <p>Xbox Game Pass Ultimate Xbox Live Gold and over 100 high-quality
-              console and PC games. Play together with friends and discover your
-              next favorite game.</p><br><br>
-              <a href="registor.html" class="btn">
-                Join Now <i class="fas fa-chevron-right"></i>
-              </a>
-          </div>
-        </section>
-    
-          <!-- Follow -->
-          <section class="follow">
-            <p>Follow us now</p>
-            <a href="https://facebook.com">
-              <img src="https://i.ibb.co/LrVMXNR/social-fb.png" alt="Facebook">
-            </a>
-            <a href="https://twitter.com">
-              <img src="https://i.ibb.co/vJvbLwm/social-twitter.png" alt="Twitter">
-            </a>
-            <a href="https://linkedin.com">
-              <img src="https://i.ibb.co/b30HMhR/social-linkedin.png" alt="Linkedin">
-            </a>
-          </section>
-
-          <script>
-    // Function for searching
-    function searchFunction() {
-        // Display a popup message or perform any other actions related to searching
-        alert("Search functionality will be implemented soon!");
-    }
-
-    // Function for shopping cart
-    function shoppingCartFunction() {
-        // Display a popup message or perform any other actions related to the shopping cart
-        alert("Shopping cart functionality will be implemented soon!");
-    }
-</script>
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
+        });
+        
+        // Add to cart functionality
+        const cartButtons = document.querySelectorAll('.cart-btn');
+        cartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Product added to cart!');
+            });
+        });
+    </script>
 </body>
 </html>
