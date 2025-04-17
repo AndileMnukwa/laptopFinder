@@ -3,31 +3,742 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaptopFinder</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>LaptopFinder - Premium Laptops at Competitive Prices</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2962ff;
+            --secondary-color: #0d47a1;
+            --accent-color: #ff6d00;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --medium-gray: #757575;
+            --text-color: #212121;
+            --white: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--white);
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .logo img {
+            height: 100%;
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-icons a {
+            margin-left: 20px;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/800') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            margin-top: 70px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            padding: 0 20px;
+            color: var(--white);
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn i {
+            margin-left: 10px;
+        }
+        
+        /* Featured Products */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--medium-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .product-info p {
+            color: var(--medium-gray);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-link i {
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .product-link:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Promotion Section */
+        .promotion {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/600') no-repeat center center/cover;
+            padding: 80px 0;
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .promotion h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .promotion p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .benefit-card p {
+            color: var(--medium-gray);
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            padding: 60px 0;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+        }
+        
+        .newsletter h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-form button {
+            padding: 0 30px;
+            border: none;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #e65100;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdbdbd;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            height: 40px;
+            width: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdbdbd;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media screen and (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 40px 20px;
+                transition: left 0.3s;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero {
+                height: 70vh;
+                text-align: center;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .newsletter-form button {
+                border-radius: 4px;
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-          <section class="landing">
-            <div class="content">
-              <h1>Looking For Computer</h1>
-              <p>Buy any and get a free carrying case!</p>
-                <a href="webpage.html" class="btn" onclick="confirmNavigation()">
-                  Get Yours Now <i class="fas fa-chevron-right"></i>
+    <!-- Header and Navigation -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="aijar (1).png" alt="LaptopFinder Logo">
+                    </a>
+                </div>
+                
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Deals</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="registor.html">Register</a></li>
+                </ul>
+                
+                <div class="nav-icons">
+                    <a href="#" id="search-icon"><i class="fas fa-search"></i></a>
+                    <a href="#" id="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+                    <a href="#"><i class="fas fa-user"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Find Your Perfect Laptop</h1>
+                <p>Premium laptops at competitive prices with free carrying case on all purchases!</p>
+                <a href="webpage.html" class="btn" id="cta-button">
+                    Shop Now <i class="fas fa-chevron-right"></i>
                 </a>
             </div>
-          </section>
-          <script>
-            // Function to show confirmation popup before navigation
-            function confirmNavigation() {
-                // Display popup message
-                var confirmation = confirm("Are you sure you want to proceed?");
-                // If user confirms, navigate to index.html
-                if (confirmation) {
-                    window.location.href = 'index.html';
-                }
-            }
-        </script>
+        </div>
+    </section>
+    
+    <!-- Featured Products Section -->
+    <section class="featured-products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Laptops</h2>
+                <p>Discover our most popular high-performance laptops for work, gaming, and everyday use.</p>
+            </div>
+            
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="lenovo.jpg" alt="Lenovo i7 Laptop">
+                    </div>
+                    <div class="product-info">
+                        <h3>New Lenovo i7</h3>
+                        <p>Powerful performance with 11th Gen Intel Core i7, 16GB RAM, and 512GB SSD storage.</p>
+                        <div class="product-price">R12,999</div>
+                        <a href="#" class="product-link">
+                            Learn More <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="hp.jpg" alt="HP Laptop">
+                    </div>
+                    <div class="product-info">
+                        <h3>New HP Laptop</h3>
+                        <p>Express yourself with a thin, light design, faster performance, and up to 11.5 hours battery life.</p>
+                        <div class="product-price">R10,499</div>
+                        <a href="#" class="product-link">
+                            Learn More <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="unit.jpg" alt="System Unit Deal">
+                    </div>
+                    <div class="product-info">
+                        <h3>I5 Bundle Deal</h3>
+                        <p>Save R150 + free mouse + system unit. High performance for work and gaming.</p>
+                        <div class="product-price">R7,349</div>
+                        <a href="#" class="product-link">
+                            Learn More <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="dell.jpg" alt="Dell Laptop">
+                    </div>
+                    <div class="product-info">
+                        <h3>The New Dell Laptop</h3>
+                        <p>World-class performance with more privacy, productivity, and value.</p>
+                        <div class="product-price">R11,699</div>
+                        <a href="#" class="product-link">
+                            Learn More <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Promotion Section -->
+    <section class="promotion">
+        <div class="container">
+            <h2>Limited Time Offer</h2>
+            <p>Sign up today and get exclusive access to our premium customer support and extended warranty options.</p>
+            <a href="registor.html" class="btn">
+                Register Now <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </section>
+    
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose LaptopFinder?</h2>
+                <p>We provide exceptional service and value to all our customers.</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <!-- Benefit 1 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Fast Delivery</h3>
+                    <p>Free shipping on all orders with delivery within 2-3 business days.</p>
+                </div>
+                
+                <!-- Benefit 2 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Warranty Protection</h3>
+                    <p>All our laptops come with a 2-year warranty for peace of mind.</p>
+                </div>
+                
+                <!-- Benefit 3 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our customer support team is available around the clock to assist you.</p>
+                </div>
+                
+                <!-- Benefit 4 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <h3>Easy Returns</h3>
+                    <p>30-day money-back guarantee if you're not completely satisfied.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h3>Subscribe to Our Newsletter</h3>
+            <p>Stay updated with our latest products, special offers, and tech news.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1 -->
+                <div class="footer-column">
+                    <h4>LaptopFinder</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">All Laptops</a></li>
+                        <li><a href="#">Gaming Laptops</a></li>
+                        <li><a href="#">Business Laptops</a></li>
+                        <li><a href="#">Student Deals</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div class="footer-column">
+                    <h4>Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Warranty Information</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 LaptopFinder. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
+        });
         
+        // Search Functionality
+        document.getElementById('search-icon').addEventListener('click', function() {
+            alert("Search functionality will be implemented soon!");
+        });
+        
+        // Shopping Cart Functionality
+        document.getElementById('cart-icon').addEventListener('click', function() {
+            alert("Shopping cart functionality will be implemented soon!");
+        });
+        
+        // CTA Button with Confirmation
+        document.getElementById('cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            var confirmation = confirm("Are you sure you want to proceed to our shop?");
+            if (confirmation) {
+                window.location.href = 'webpage.html';
+            }
+        });
+    </script>
 </body>
 </html>
